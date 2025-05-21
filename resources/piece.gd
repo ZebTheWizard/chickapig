@@ -1,1 +1,1 @@
-class_name Piece extends PieceResource
+class_name Piece extends Layer

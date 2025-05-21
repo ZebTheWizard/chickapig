@@ -1,1 +1,1 @@
-class_name Hazard extends PieceResource
+class_name Hazard extends Layer

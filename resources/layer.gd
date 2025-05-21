@@ -1,4 +1,4 @@
-class_name PieceResource extends Resource
+class_name Layer extends Resource
 
 @export var type: int
 @export var tint: Enum.Tint = Enum.Tint.NIL

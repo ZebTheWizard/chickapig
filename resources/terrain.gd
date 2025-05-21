@@ -1,1 +1,1 @@
-class_name Terrain extends PieceResource
+class_name Terrain extends Layer
