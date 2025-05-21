@@ -1,0 +1,1 @@
+class_name Piece extends PieceResource
