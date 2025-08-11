@@ -19,6 +19,7 @@ config/icon="res://icon.svg"
 Enum="*res://autoload/enum.gd"
 Board="*res://autoload/board.gd"
 GUT="*res://addons/gut/gut.gd"
+Util="*res://autoload/util.gd"
 
 [editor_plugins]
 

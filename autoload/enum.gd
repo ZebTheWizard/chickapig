@@ -41,8 +41,8 @@ enum Cow {
 enum Tint {
 	NIL,
 	RED,
-	BLUE,
 	GREEN,
+	BLUE,
 	YELLOW,
 }
 
