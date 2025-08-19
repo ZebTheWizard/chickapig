@@ -1,0 +1,49 @@
+[gd_scene load_steps=4 format=3 uid="uid://b2f1oqsi6g7vg"]
+
+[ext_resource type="Script" uid="uid://b2sasqm5rskqi" path="res://scripts/ui/game_menu.gd" id="1_mf4mk"]
+[ext_resource type="PackedScene" uid="uid://ddem7ka4k3b3m" path="res://scenes/die_viewport.tscn" id="2_eqigg"]
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_0wfyh"]
+viewport_path = NodePath(".")
+
+[node name="Die Roller" type="CanvasLayer"]
+script = ExtResource("1_mf4mk")
+
+[node name="Die Viewport" parent="." instance=ExtResource("2_eqigg")]
+
+[node name="Panel" type="Panel" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -400.0
+offset_top = -200.0
+offset_right = 400.0
+offset_bottom = 200.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TextureRect" type="TextureRect" parent="Panel"]
+clip_contents = true
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -150.0
+offset_top = -150.0
+offset_right = 150.0
+offset_bottom = 150.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("ViewportTexture_0wfyh")
+
+[node name="Button" type="Button" parent="Panel"]
+layout_mode = 0
+offset_right = 8.0
+offset_bottom = 8.0
+text = "roll die"
+
+[connection signal="pressed" from="Panel/Button" to="." method="_on_roll_die"]

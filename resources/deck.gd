@@ -10,3 +10,6 @@ func _init(cards:Array[Card]):
 	
 func shuffle_with(rnd:RandomNumberGenerator):
 	Util.shuffle_array(cards, rnd)
+	
+func pick_card():
+	return cards.pop_front()

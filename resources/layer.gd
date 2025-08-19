@@ -7,7 +7,7 @@ func _init(type:int, tint:Enum.Tint=Enum.Tint.NIL) -> void:
 	self.type = type
 	self.tint = tint
 	
-func clone() -> Piece:
+func clone() -> Layer:
 	return get_script().new(self.type, self.tint)
 	
 func to_array() -> Array:

@@ -10,8 +10,9 @@ func _init(args:Dictionary={}):
 	fine_print = args.get("fine_print", "")
 	effect = args.get("effect", {})
 	
-func use(game:GameState):
+func invoke_effect(game:GameState):
 	var handle = effect.get("handle")
 	if handle:
 		return call(handle)
+	game.player.played_cards = game.player.played_cards.filter(func (c:Card): return c.id != self.id)
 	

@@ -1,5 +1,7 @@
 class_name BoardState extends Resource
 
+signal update
+
 @export var rows:Array[Row]
 var cow_state: Enum.Cow = Enum.Cow.PEN
 var width
@@ -9,7 +11,7 @@ func _init(width:int, height:int) -> void:
 	self.width = width
 	self.height = height
 	for h in height:
-		rows.append(Row.new(width))
+		rows.append(Row.new(width, h))
 	
 #region Getters/Setters		
 func get_tile(x:int, y:int) -> Tile:
@@ -24,21 +26,25 @@ func set_piece(x:int, y:int, type:Enum.Piece, tint:Enum.Tint=Enum.Tint.NIL) -> v
 	var tile:Tile = get_tile(x, y)
 	tile.piece.type = type
 	tile.piece.tint = tint
+	update.emit(tile)
 	
 func set_barriers(x:int, y:int, barriers:Array[Enum.Direction]):
 	var tile:Tile = get_tile(x, y)
 	for d in barriers:
 		tile.barriers.set(d, true)
+	update.emit(tile)
 		
 func set_terrain(x:int, y:int, type:Enum.Terrain, tint:Enum.Tint=Enum.Tint.NIL):
 	var tile:Tile = get_tile(x, y)
 	tile.terrain.type = type
 	tile.terrain.tint = tint
+	update.emit(tile)
 	
 func set_hazard(x:int, y:int, type:Enum.Hazard, tint:Enum.Tint=Enum.Tint.NIL):
 	var tile:Tile = get_tile(x, y)
 	tile.hazard.type = type
 	tile.hazard.tint = tint
+	update.emit(tile)
 
 #endregion
 

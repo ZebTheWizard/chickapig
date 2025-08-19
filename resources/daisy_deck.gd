@@ -38,16 +38,36 @@ func _init():
 			"description": "Avoid the consequences of a poop -OR- add 2 moves to any roll.",
 			"fine_print": "",
 			"effect": {
-				"type": "anytime",
-				"handle": _avoid_poop_or_add_moves
+				"type": "end_of_turn",
+				"handle": _avoid_poop_or_add_moves,
+				"choices": [
+					{
+						"id":1,
+						"label": "avoid consequences"
+					},
+					{
+						"id":2,
+						"label": "add 2 moves"
+					}
+				]
 			}
 		}),
 		Card.new({
 			"description": "Avoid the consequences of a poop -OR- add 2 moves to any roll.",
 			"fine_print": "",
 			"effect": {
-				"type": "anytime",
-				"handle": _avoid_poop_or_add_moves
+				"type": "end_of_turn",
+				"handle": _avoid_poop_or_add_moves,
+				"choices": [
+					{
+						"id":1,
+						"label": "avoid consequences"
+					},
+					{
+						"id":2,
+						"label": "add 2 moves"
+					}
+				]
 			}
 		}),
 		Card.new({

@@ -11,15 +11,16 @@ config_version=5
 [application]
 
 config/name="Chickapig"
+run/main_scene="uid://btu0irecvvy7f"
 config/features=PackedStringArray("4.4", "GL Compatibility")
 config/icon="res://icon.svg"
 
 [autoload]
 
 Enum="*res://autoload/enum.gd"
-Board="*res://autoload/board.gd"
 GUT="*res://addons/gut/gut.gd"
 Util="*res://autoload/util.gd"
+GameController="*res://autoload/game_controller.gd"
 
 [editor_plugins]
 
@@ -27,5 +28,6 @@ enabled=PackedStringArray("res://addons/gut/plugin.cfg")
 
 [rendering]
 
+textures/canvas_textures/default_texture_filter=0
 renderer/rendering_method="gl_compatibility"
 renderer/rendering_method.mobile="gl_compatibility"

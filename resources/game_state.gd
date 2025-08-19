@@ -1,7 +1,7 @@
 class_name GameState extends Resource
 
 @export var grid: BoardState
-@export var players: Array[Player]
+@export var players: Array[Player] = []
 @export var player: Player
 var rnd:RandomNumberGenerator
 var started = false
@@ -10,18 +10,27 @@ var can_place_cow = false
 var can_draw_daisy = false
 var daisy_cards = DaisyDeck.new()
 var poop_cards = PoopDeck.new()
+var card_choices:Array = []
 
-func _init(players:int = 2):
-	assert(players == 2 or players == 4)
-	for i in range(players):
-		self.players.append(Player.new(i, Enum.Tint.values()[i + 1]))
+func _init():
 	rnd = RandomNumberGenerator.new()
+	grid = BoardState.new(14,14)
+	
+func add_four_players():
+	add_player([Enum.Tint.RED])
+	add_player([Enum.Tint.BLUE])
+	add_player([Enum.Tint.GREEN])
+	add_player([Enum.Tint.YELLOW])
 		
+func add_player(tints:Array[Enum.Tint]):
+	self.players.append(Player.new(players.size(), tints))
+	
 func set_seed(seed):
 	rnd.seed = hash(str(seed))
 	
 func start():
 	if not started:
+		assert(players.size() > 0, "Add at least one player to game state.")
 		self.player = self.players.get(rnd.randi() % self.players.size())
 		started = true
 		shuffle_daisy_cards()
@@ -45,24 +54,20 @@ func next_turn() -> Player:
 	player = players[id]
 	return player
 	
+func end_turn():
+	_card_effect("end_of_turn")
+	
 func draw_daisy_card():
-	pass
+	return player.draw_card(daisy_cards)
 	
 func draw_poop_card():
-	pass
-	
-func _draw_card(deck: Deck):
-	var card = deck.cards.pop_front()
-	player.cards.append(card)
-	if card.effect.get("type") == "immediate":
-		play_card(card)
-	_card_effect("immediate")
+	return player.draw_card(poop_cards)
 	
 func _card_effect(type:String) -> Array:
 	var results = []
 	for card in player.played_cards:
 		if card.effect.get("type") == type:
-			results.append(card.use(self))
+			results.append(card.invoke_effect(self))
 	return results
 			
 func _has_card_effect(type:String) -> bool:
@@ -72,9 +77,11 @@ func _has_card_effect(type:String) -> bool:
 			found = true
 	return found
 			
-func play_card(card:Card):
+func select_card(card:Card):
 	player.cards = player.cards.filter(func (c:Card): return c.id != card.id)
 	player.played_cards.append(card)
+	if "choices" in card.effect:
+		card_choices = card.effect.choices
 	
 func shuffle_daisy_cards():
 	daisy_cards.shuffle_with(rnd)
