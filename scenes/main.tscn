@@ -10,7 +10,6 @@
 [node name="Node3D" type="Node2D"]
 
 [node name="Die Roller" parent="." instance=ExtResource("1_0wfyh")]
-visible = false
 
 [node name="Board" type="Sprite2D" parent="."]
 scale = Vector2(5.85571, 5.85571)
@@ -39,6 +38,10 @@ text = "next turn"
 [node name="Orient Board" type="Button" parent="Board UI/VBoxContainer"]
 layout_mode = 2
 text = "Orient Board"
+
+[node name="Moves Left" type="Label" parent="Board UI/VBoxContainer"]
+layout_mode = 2
+text = "Moves left: 0"
 
 [connection signal="pressed" from="Board UI/VBoxContainer/Next Turn" to="Board UI" method="_on_next_turn_pressed"]
 [connection signal="pressed" from="Board UI/VBoxContainer/Orient Board" to="Board UI" method="_on_orient_board_pressed"]

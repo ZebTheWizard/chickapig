@@ -1,5 +1,7 @@
 class_name GameState extends Resource
 
+signal out_of_moves
+
 @export var grid: BoardState
 @export var players: Array[Player] = []
 @export var player: Player
@@ -88,3 +90,11 @@ func shuffle_daisy_cards():
 	
 func shuffle_poop_cards():
 	poop_cards.shuffle_with(rnd)
+	
+func try_move(from:Vector2, to:Vector2, options:Dictionary={}):
+	if player.remaining_moves > 0:
+		var move = grid.try_move(from, to, options)
+		if move:
+			player.remaining_moves -= 1
+		if player.remaining_moves <= 0:
+			out_of_moves.emit()

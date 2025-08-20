@@ -1,0 +1,20 @@
+[gd_scene load_steps=4 format=3 uid="uid://mxuyfkpe5wtj"]
+
+[ext_resource type="Script" uid="uid://p3p6lmof3j3q" path="res://scripts/hay.gd" id="1_a21xl"]
+[ext_resource type="Texture2D" uid="uid://bmc4yjxps5552" path="res://assets/spritesheet.png" id="2_wdxmm"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_4a8uq"]
+size = Vector2(128, 128)
+
+[node name="Hay" type="Area2D"]
+script = ExtResource("1_a21xl")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_wdxmm")
+region_enabled = true
+region_rect = Rect2(128, 0, 128, 128)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_4a8uq")
+
+[connection signal="input_event" from="." to="." method="_on_input_event"]

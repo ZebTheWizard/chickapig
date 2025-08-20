@@ -4,6 +4,8 @@ class_name Player extends Resource
 @export var played_cards: Array[Card] = []
 @export var id:int
 @export var tints: Array[Enum.Tint] = []
+@export var remaining_moves:int = 6
+@export var move_options:Dictionary
 
 func _init(id:int, tint:Array[Enum.Tint]):
 	self.id = id

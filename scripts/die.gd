@@ -1,5 +1,7 @@
 extends RigidBody3D
 
+@onready var die = $"CollisionShape3D/die"
+
 var die_orientations = [
 	# Face +Z up
 	Vector3(0, 0, 0),
@@ -46,6 +48,7 @@ var rolling_phase := 0
 
 func _ready() -> void:
 	GameController.roll_die.connect(_on_roll_die)
+	print(get_top_face(die))
 
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("ui_accept"):
@@ -73,9 +76,34 @@ func _process(delta):
 			rolling_phase = 2
 
 	elif rolling_phase == 2:
-		# Phase 2: smooth settle
 		var current_quat = global_transform.basis.get_rotation_quaternion()
 		var new_quat = current_quat.slerp(target_quat, delta * 4.0)
 		global_transform.basis = Basis(new_quat)
-		if new_quat.is_equal_approx(target_quat):
-			rolling_phase = 0
+
+		# Check closeness with a tolerance
+		if abs(current_quat.dot(target_quat)) > 0.9999:
+			global_transform.basis = Basis(target_quat) # snap final
+			rolling_phase = 3
+
+	elif rolling_phase == 3:
+		GameController.rolled.emit(get_top_face(die))
+		rolling_phase = 0
+
+func get_top_face(die: Node3D):
+	var dir = Vector3.BACK
+	var die_center := die.global_position
+	var target_dir := dir.normalized()
+
+	var best_face: Node3D = null
+	var best_dot := -INF
+	var children = die.get_children().filter(func(child): return child is DieFace)
+	for child in children:
+		if child is Node3D:
+			var face := child as Node3D
+			var normal := (face.global_position - die_center).normalized()
+			var d := normal.dot(target_dir)
+			if d > best_dot:
+				best_dot = d
+				best_face = face
+
+	return best_face.amount

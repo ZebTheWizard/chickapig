@@ -5,6 +5,7 @@ var dot_scene = preload("res://scenes/dot.tscn")
 func _ready() -> void:
 	GameController.select.connect(_on_select)
 	GameController.game.grid.update.connect(_on_tile_update)
+	GameController.next_turn.connect(_on_next_turn)
 	
 func _on_select(tile:Tile):
 	_draw_available_moves(tile)
@@ -23,3 +24,7 @@ func _draw_available_moves(tile:Tile):
 		
 func _on_tile_update(tile: Tile):
 	GameController.select_tile(tile)
+	
+func _on_next_turn():
+	for child in get_children():
+		child.queue_free()

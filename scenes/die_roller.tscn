@@ -1,10 +1,7 @@
-[gd_scene load_steps=4 format=3 uid="uid://b2f1oqsi6g7vg"]
+[gd_scene load_steps=3 format=3 uid="uid://b2f1oqsi6g7vg"]
 
 [ext_resource type="Script" uid="uid://b2sasqm5rskqi" path="res://scripts/ui/game_menu.gd" id="1_mf4mk"]
 [ext_resource type="PackedScene" uid="uid://ddem7ka4k3b3m" path="res://scenes/die_viewport.tscn" id="2_eqigg"]
-
-[sub_resource type="ViewportTexture" id="ViewportTexture_0wfyh"]
-viewport_path = NodePath(".")
 
 [node name="Die Roller" type="CanvasLayer"]
 script = ExtResource("1_mf4mk")
@@ -38,12 +35,90 @@ offset_right = 150.0
 offset_bottom = 150.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = SubResource("ViewportTexture_0wfyh")
 
-[node name="Button" type="Button" parent="Panel"]
+[node name="VBoxContainer" type="VBoxContainer" parent="Panel"]
 layout_mode = 0
-offset_right = 8.0
-offset_bottom = 8.0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Button" type="Button" parent="Panel/VBoxContainer" groups=["roll_action"]]
+layout_mode = 2
 text = "roll die"
 
-[connection signal="pressed" from="Panel/Button" to="." method="_on_roll_die"]
+[node name="Give 6" type="Button" parent="Panel/VBoxContainer" groups=["roll_action"]]
+layout_mode = 2
+text = "Give 6"
+
+[node name="Give 5" type="Button" parent="Panel/VBoxContainer" groups=["roll_action"]]
+layout_mode = 2
+text = "Give 5"
+
+[node name="Give 4" type="Button" parent="Panel/VBoxContainer" groups=["roll_action"]]
+layout_mode = 2
+text = "Give 4"
+
+[node name="Give 3" type="Button" parent="Panel/VBoxContainer" groups=["roll_action"]]
+layout_mode = 2
+text = "Give 3"
+
+[node name="Give 2" type="Button" parent="Panel/VBoxContainer" groups=["roll_action"]]
+layout_mode = 2
+text = "Give 2"
+
+[node name="Give 1" type="Button" parent="Panel/VBoxContainer" groups=["roll_action"]]
+layout_mode = 2
+text = "Give 1"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Panel" groups=["roll_one"]]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -77.0
+offset_top = -40.0
+offset_right = 77.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="Button" type="Button" parent="Panel/HBoxContainer" groups=["roll_one"]]
+layout_mode = 2
+text = "Move 1"
+
+[node name="Button2" type="Button" parent="Panel/HBoxContainer" groups=["roll_one"]]
+layout_mode = 2
+text = "Place Cow"
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="Panel" groups=["roll_two"]]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -77.0
+offset_top = -40.0
+offset_right = 77.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="Button" type="Button" parent="Panel/HBoxContainer2" groups=["roll_two"]]
+layout_mode = 2
+text = "Move 2"
+
+[node name="Button2" type="Button" parent="Panel/HBoxContainer2" groups=["roll_two"]]
+layout_mode = 2
+text = "Daisy Card"
+
+[connection signal="pressed" from="Panel/VBoxContainer/Button" to="." method="_on_roll_die"]
+[connection signal="pressed" from="Panel/VBoxContainer/Give 6" to="." method="_on_give_number_pressed" binds= [6]]
+[connection signal="pressed" from="Panel/VBoxContainer/Give 5" to="." method="_on_give_number_pressed" binds= [5]]
+[connection signal="pressed" from="Panel/VBoxContainer/Give 4" to="." method="_on_give_number_pressed" binds= [4]]
+[connection signal="pressed" from="Panel/VBoxContainer/Give 3" to="." method="_on_give_number_pressed" binds= [3]]
+[connection signal="pressed" from="Panel/VBoxContainer/Give 2" to="." method="_on_give_number_pressed" binds= [2]]
+[connection signal="pressed" from="Panel/VBoxContainer/Give 1" to="." method="_on_give_number_pressed" binds= [1]]
+[connection signal="pressed" from="Panel/HBoxContainer/Button" to="." method="_on_choice_selected_for_one" binds= ["move"]]
+[connection signal="pressed" from="Panel/HBoxContainer/Button2" to="." method="_on_choice_selected_for_one" binds= ["cow"]]
+[connection signal="pressed" from="Panel/HBoxContainer2/Button" to="." method="_on_choice_selected_for_two" binds= ["move"]]
+[connection signal="pressed" from="Panel/HBoxContainer2/Button2" to="." method="_on_choice_selected_for_two" binds= ["daisy"]]

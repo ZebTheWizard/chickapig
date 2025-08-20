@@ -1,6 +1,7 @@
-[gd_scene load_steps=3 format=3 uid="uid://b7523nvqif2ig"]
+[gd_scene load_steps=4 format=3 uid="uid://b7523nvqif2ig"]
 
 [ext_resource type="PackedScene" uid="uid://bcu8lvs0o6naa" path="res://assets/die.blend" id="1_5x8g4"]
+[ext_resource type="PackedScene" uid="uid://c3ex2e2smo44" path="res://scenes/die_indicator.tscn" id="2_hvcds"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_o5qli"]
 size = Vector3(2, 2, 2)
@@ -13,3 +14,27 @@ angular_damp = 3.0
 shape = SubResource("BoxShape3D_o5qli")
 
 [node name="die" parent="CollisionShape3D" instance=ExtResource("1_5x8g4")]
+
+[node name="6" parent="CollisionShape3D/die" instance=ExtResource("2_hvcds")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+amount = 6
+
+[node name="1" parent="CollisionShape3D/die" instance=ExtResource("2_hvcds")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
+amount = 1
+
+[node name="2" parent="CollisionShape3D/die" instance=ExtResource("2_hvcds")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, 0)
+amount = 2
+
+[node name="5" parent="CollisionShape3D/die" instance=ExtResource("2_hvcds")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0)
+amount = 5
+
+[node name="4" parent="CollisionShape3D/die" instance=ExtResource("2_hvcds")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1)
+amount = 4
+
+[node name="3" parent="CollisionShape3D/die" instance=ExtResource("2_hvcds")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1)
+amount = 3
