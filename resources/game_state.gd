@@ -1,9 +1,10 @@
 class_name GameState extends Resource
 
 signal out_of_moves
+signal ready
 
 @export var grid: BoardState
-@export var players: Array[Player] = []
+@export var players: Dictionary[int, Player] = {}
 @export var player: Player
 var rnd:RandomNumberGenerator
 var started = false
@@ -24,8 +25,10 @@ func add_four_players():
 	add_player([Enum.Tint.GREEN])
 	add_player([Enum.Tint.YELLOW])
 		
-func add_player(tints:Array[Enum.Tint]):
-	self.players.append(Player.new(players.size(), tints))
+func add_player(tints:Array[Enum.Tint], name:String="", server_id:int=0):
+	var id = players.size()
+	if !players.has(id):
+		players.set(id, Player.new(id, tints, name, server_id))
 	
 func set_seed(seed):
 	rnd.seed = hash(str(seed))
@@ -37,6 +40,7 @@ func start():
 		started = true
 		shuffle_daisy_cards()
 		shuffle_poop_cards()
+		ready.emit()
 
 func roll_die(num:int = 0) -> int:
 	var max = 6

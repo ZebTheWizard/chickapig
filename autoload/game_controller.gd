@@ -21,11 +21,6 @@ func _ready() -> void:
 	
 	game.out_of_moves.connect(_on_out_of_moves)
 	
-	game.add_player([Enum.Tint.RED])
-	game.add_player([Enum.Tint.BLUE])
-	game.add_player([Enum.Tint.GREEN])
-	game.add_player([Enum.Tint.YELLOW])
-	
 	# Red Pigs
 	game.grid.set_piece(1,0,Enum.Piece.PIG, Enum.Tint.RED)
 	game.grid.set_piece(3,0,Enum.Piece.PIG, Enum.Tint.RED)
@@ -92,7 +87,6 @@ func _ready() -> void:
 	game.grid.set_terrain(13,6,Enum.Terrain.YAY,Enum.Tint.BLUE)
 	game.grid.set_terrain(13,7,Enum.Terrain.YAY,Enum.Tint.BLUE)
 	
-	game.start()
 
 func _on_next_turn():
 	_next_turn()

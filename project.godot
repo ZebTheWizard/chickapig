@@ -21,6 +21,7 @@ Enum="*res://autoload/enum.gd"
 GUT="*res://addons/gut/gut.gd"
 Util="*res://autoload/util.gd"
 GameController="*res://autoload/game_controller.gd"
+Network="*res://autoload/network_controller.gd"
 
 [editor_plugins]
 

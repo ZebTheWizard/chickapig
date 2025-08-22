@@ -2,6 +2,9 @@ extends Sprite2D
 
 func _ready() -> void:
 	GameController.orient_board.connect(_on_orient_board)
+	GameController.game.ready.connect(_on_game_ready)
+
+func _on_game_ready():
 	rotate_board()
 
 func _on_orient_board():

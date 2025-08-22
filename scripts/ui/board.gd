@@ -10,4 +10,5 @@ func _on_orient_board_pressed() -> void:
 	GameController.orient_board.emit()
 	
 func _process(delta: float) -> void:
-	moves_left.text = str("Moves left: ", GameController.game.player.remaining_moves)
+	if GameController.game.started:
+		moves_left.text = str("Moves left: ", GameController.game.player.remaining_moves)
