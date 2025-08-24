@@ -45,22 +45,36 @@ var spin_axis: Vector3
 var spin_speed: float
 var roll_timer: float
 var rolling_phase := 0
+var target_die_number = 1
+
+# Mapping of die numbers (1-6) to orientation indices
+var number_to_orientation = {
+	1: 9,
+	2: 1,
+	3: 2,
+	4: 0,
+	5: 3,
+	6: 16
+}
 
 func _ready() -> void:
-	GameController.roll_die.connect(_on_roll_die)
+	#GameController.roll_die.connect(_on_roll_die)
+	GameController.start_die_animation.connect(_on_roll_die)
 	print(get_top_face(die))
 
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("ui_accept"):
 		roll_die()
 		
-func _on_roll_die():
+func _on_roll_die(die_number:int):
+	self.target_die_number = die_number
+	print(die_number)
 	roll_die()
 
 func roll_die():
 	# Pick random spin axis and speed
 	spin_axis = Vector3(randf() - 0.5, randf() - 0.5, randf() - 0.5).normalized()
-	spin_speed = randf_range(15.0, 25.0)  # radians per second
+	spin_speed = 15.0  # radians per second
 	roll_timer = 0.8                       # spin duration (seconds)
 	rolling_phase = 1
 
@@ -70,8 +84,9 @@ func _process(delta):
 		rotate(spin_axis, spin_speed * delta)
 		roll_timer -= delta
 		if roll_timer <= 0.0:
-			# Pick final face orientation
-			var target_rot = die_orientations[randi() % die_orientations.size()]
+			# Use server-provided die number to determine final orientation
+			var target_orientation_index = number_to_orientation[target_die_number]
+			var target_rot = die_orientations[target_orientation_index]
 			target_quat = Basis.from_euler(target_rot).get_rotation_quaternion()
 			rolling_phase = 2
 
@@ -86,7 +101,7 @@ func _process(delta):
 			rolling_phase = 3
 
 	elif rolling_phase == 3:
-		GameController.rolled.emit(get_top_face(die))
+		GameController.rolled.emit(target_die_number)
 		rolling_phase = 0
 
 func get_top_face(die: Node3D):

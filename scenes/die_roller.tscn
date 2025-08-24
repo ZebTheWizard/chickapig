@@ -111,6 +111,21 @@ text = "Move 2"
 layout_mode = 2
 text = "Daisy Card"
 
+[node name="HBoxContainer3" type="HBoxContainer" parent="Panel"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -20.0
+offset_right = 20.0
+offset_bottom = 40.0
+grow_horizontal = 2
+
+[node name="TurnLabel" type="Label" parent="Panel/HBoxContainer3"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Player 1's turn"
+
 [connection signal="pressed" from="Panel/VBoxContainer/Button" to="." method="_on_roll_die"]
 [connection signal="pressed" from="Panel/VBoxContainer/Give 6" to="." method="_on_give_number_pressed" binds= [6]]
 [connection signal="pressed" from="Panel/VBoxContainer/Give 5" to="." method="_on_give_number_pressed" binds= [5]]

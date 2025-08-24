@@ -8,35 +8,39 @@ func _ready() -> void:
 	GameController.rolled.connect(_on_rolled)
 	GameController.roll_accepted.connect(_on_roll_accepted)
 	GameController.next_turn.connect(_on_next_turn)
+	GameController.game.ready.connect(_on_game_ready)
+	GameController.game.die_ready.connect(_on_die_ready)
+	hide()
 	_hide_roll_choices()
+
+func _on_game_ready():
+	show()
 
 func _reset_game_options():
 	GameController.game.player.move_options = GameController.default_move_options
 
 func _on_roll_die() -> void:
-	GameController.roll_die.emit()
-	_hide_roll_actions()
+	Network.request_die_roll.rpc()
+	#_hide_roll_actions()
 
 func _hide_roll_choices():
 	for node in get_tree().get_nodes_in_group("roll_one"):
 			node.hide()
 	for node in get_tree().get_nodes_in_group("roll_two"):
 			node.hide()
-			
-func _hide_roll_actions():
-	for node in get_tree().get_nodes_in_group("roll_action"):
-		node.hide()
 
 func _on_rolled(number:int):
-	if number > 2:
-		await get_tree().create_timer(1).timeout
-		GameController.roll_accepted.emit()
-	elif number == 1:
-		for node in get_tree().get_nodes_in_group("roll_one"):
-			node.show()
-	elif number == 2:
-		for node in get_tree().get_nodes_in_group("roll_two"):
-			node.show()
+	_hide_roll_choices()
+	if GameController.player_can_act():
+		if number > 2:
+			await get_tree().create_timer(1).timeout
+			Network.broadcast_roll_accepted.rpc()
+		elif number == 1:
+			for node in get_tree().get_nodes_in_group("roll_one"):
+				node.show()
+		elif number == 2:
+			for node in get_tree().get_nodes_in_group("roll_two"):
+				node.show()
 
 func _on_roll_accepted():
 	hide()
@@ -47,9 +51,17 @@ func _on_next_turn():
 	for node in get_tree().get_nodes_in_group("roll_action"):
 		node.show()
 
+func _show_roll_actions():
+	for node in get_tree().get_nodes_in_group("roll_action"):
+		node.show()
+		
+func _hide_roll_actions():
+	for node in get_tree().get_nodes_in_group("roll_action"):
+		node.hide()
+
 func _on_give_number_pressed(number: int) -> void:
-	_hide_roll_actions()
-	GameController.rolled.emit(number)
+	#_hide_roll_actions()
+	Network.request_die_roll.rpc(number)
 
 
 func _on_choice_selected_for_one(option: String) -> void:
@@ -59,7 +71,7 @@ func _on_choice_selected_for_one(option: String) -> void:
 	else:
 		GameController.default_move_options.set("cow", Enum.Cow.MOVE)
 		GameController.game.player.move_options.set("cow", Enum.Cow.MOVE)
-	GameController.roll_accepted.emit()
+	Network.broadcast_roll_accepted.rpc()
 
 
 func _on_choice_selected_for_two(option: String) -> void:
@@ -69,4 +81,13 @@ func _on_choice_selected_for_two(option: String) -> void:
 		GameController.next_turn.emit()
 		GameController.orient_board.emit()
 	else:
-		GameController.roll_accepted.emit()
+		Network.broadcast_roll_accepted.rpc()
+
+func _on_die_ready():
+	if GameController.player_can_act():
+		_show_roll_actions()
+		%TurnLabel.hide()
+	else:
+		_hide_roll_actions()
+		%TurnLabel.show()
+		%TurnLabel.text = str(GameController.game.player.name, "'s turn")

@@ -2,6 +2,8 @@ class_name GameState extends Resource
 
 signal out_of_moves
 signal ready
+signal die_ready
+signal added_player
 
 @export var grid: BoardState
 @export var players: Dictionary[int, Player] = {}
@@ -28,7 +30,71 @@ func add_four_players():
 func add_player(tints:Array[Enum.Tint], name:String="", server_id:int=0):
 	var id = players.size()
 	if !players.has(id):
-		players.set(id, Player.new(id, tints, name, server_id))
+		var player = Player.new(id, tints, name, server_id)
+		players.set(id, player)
+		
+		if not self.player:
+			self.player = player
+		
+		if Enum.Tint.RED in tints:
+			# Red Pigs
+			grid.set_piece(1,0,Enum.Piece.PIG, Enum.Tint.RED)
+			grid.set_piece(3,0,Enum.Piece.PIG, Enum.Tint.RED)
+			grid.set_piece(5,0,Enum.Piece.PIG, Enum.Tint.RED)
+			grid.set_piece(8,0,Enum.Piece.PIG, Enum.Tint.RED)
+			grid.set_piece(10,0,Enum.Piece.PIG, Enum.Tint.RED)
+			grid.set_piece(12,0,Enum.Piece.PIG, Enum.Tint.RED)
+			
+			# Red Haybales
+			grid.set_piece(5,1,Enum.Piece.HAY, Enum.Tint.RED)
+			grid.set_piece(8,1,Enum.Piece.HAY, Enum.Tint.RED)
+			grid.set_piece(5,10,Enum.Piece.HAY, Enum.Tint.RED)
+			grid.set_piece(8,10,Enum.Piece.HAY, Enum.Tint.RED)
+		
+		if Enum.Tint.BLUE in tints:
+			# Blue Pigs
+			grid.set_piece(0,1,Enum.Piece.PIG, Enum.Tint.BLUE)
+			grid.set_piece(0,3,Enum.Piece.PIG, Enum.Tint.BLUE)
+			grid.set_piece(0,5,Enum.Piece.PIG, Enum.Tint.BLUE)
+			grid.set_piece(0,8,Enum.Piece.PIG, Enum.Tint.BLUE)
+			grid.set_piece(0,10,Enum.Piece.PIG, Enum.Tint.BLUE)
+			grid.set_piece(0,12,Enum.Piece.PIG, Enum.Tint.BLUE)
+			
+			# Blue Haybales
+			grid.set_piece(1,5,Enum.Piece.HAY, Enum.Tint.BLUE)
+			grid.set_piece(1,8,Enum.Piece.HAY, Enum.Tint.BLUE)
+			grid.set_piece(10,5,Enum.Piece.HAY, Enum.Tint.BLUE)
+			grid.set_piece(10,8,Enum.Piece.HAY, Enum.Tint.BLUE)
+			
+		if Enum.Tint.GREEN in tints:
+			# Green Pigs
+			grid.set_piece(1,13,Enum.Piece.PIG, Enum.Tint.GREEN)
+			grid.set_piece(3,13,Enum.Piece.PIG, Enum.Tint.GREEN)
+			grid.set_piece(5,13,Enum.Piece.PIG, Enum.Tint.GREEN)
+			grid.set_piece(8,13,Enum.Piece.PIG, Enum.Tint.GREEN)
+			grid.set_piece(10,13,Enum.Piece.PIG, Enum.Tint.GREEN)
+			grid.set_piece(12,13,Enum.Piece.PIG, Enum.Tint.GREEN)
+			# Green Haybales
+			grid.set_piece(5,3,Enum.Piece.HAY, Enum.Tint.GREEN)
+			grid.set_piece(8,3,Enum.Piece.HAY, Enum.Tint.GREEN)
+			grid.set_piece(5,12,Enum.Piece.HAY, Enum.Tint.GREEN)
+			grid.set_piece(8,12,Enum.Piece.HAY, Enum.Tint.GREEN)
+		
+		if Enum.Tint.YELLOW in tints:
+			# Yellow Pigs
+			grid.set_piece(13,1,Enum.Piece.PIG, Enum.Tint.YELLOW)
+			grid.set_piece(13,3,Enum.Piece.PIG, Enum.Tint.YELLOW)
+			grid.set_piece(13,5,Enum.Piece.PIG, Enum.Tint.YELLOW)
+			grid.set_piece(13,8,Enum.Piece.PIG, Enum.Tint.YELLOW)
+			grid.set_piece(13,10,Enum.Piece.PIG, Enum.Tint.YELLOW)
+			grid.set_piece(13,12,Enum.Piece.PIG, Enum.Tint.YELLOW)
+			# Yellow Haybales
+			grid.set_piece(3,5,Enum.Piece.HAY, Enum.Tint.YELLOW)
+			grid.set_piece(3,8,Enum.Piece.HAY, Enum.Tint.YELLOW)
+			grid.set_piece(12,5,Enum.Piece.HAY, Enum.Tint.YELLOW)
+			grid.set_piece(12,8,Enum.Piece.HAY, Enum.Tint.YELLOW)
+			
+		added_player.emit(player)
 	
 func set_seed(seed):
 	rnd.seed = hash(str(seed))
@@ -41,6 +107,10 @@ func start():
 		shuffle_daisy_cards()
 		shuffle_poop_cards()
 		ready.emit()
+		die_ready.emit()
+
+func randi_range(from, to) -> int:
+	return rnd.randi_range(from,to)
 
 func roll_die(num:int = 0) -> int:
 	var max = 6
@@ -58,6 +128,7 @@ func roll_die(num:int = 0) -> int:
 func next_turn() -> Player:
 	var id = (player.id + 1) % players.size()
 	player = players[id]
+	die_ready.emit()
 	return player
 	
 func end_turn():

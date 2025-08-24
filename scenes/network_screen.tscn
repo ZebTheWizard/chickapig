@@ -1,0 +1,118 @@
+[gd_scene load_steps=3 format=3 uid="uid://bosvf17a7r4di"]
+
+[ext_resource type="Script" uid="uid://b6btlk4gxvs5s" path="res://scripts/ui/network_menu.gd" id="1_43l5y"]
+[ext_resource type="ButtonGroup" uid="uid://711ovxpsbfaf" path="res://resources/network_ui/mode_button_group.tres" id="2_t2sxu"]
+
+[node name="Network UI" type="CanvasLayer"]
+script = ExtResource("1_43l5y")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+offset_right = 40.0
+offset_bottom = 40.0
+theme_override_constants/separation = 20
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="VBoxContainer/HBoxContainer2/VBoxContainer" groups=["phase_1"]]
+layout_mode = 2
+
+[node name="UsernameLabel" type="Label" parent="VBoxContainer/HBoxContainer2/VBoxContainer/VBoxContainer2"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Username"
+
+[node name="Username" type="LineEdit" parent="VBoxContainer/HBoxContainer2/VBoxContainer/VBoxContainer2"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="HBoxContainer4" type="HBoxContainer" parent="VBoxContainer/HBoxContainer2/VBoxContainer" groups=["phase_1"]]
+layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="VBoxContainer/HBoxContainer2/VBoxContainer/HBoxContainer4"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer2/VBoxContainer/HBoxContainer4/VBoxContainer2"]
+layout_mode = 2
+text = "2 Player"
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer/HBoxContainer2/VBoxContainer/HBoxContainer4/VBoxContainer2"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/HBoxContainer2/VBoxContainer/HBoxContainer4/VBoxContainer2/HBoxContainer2"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer2/VBoxContainer/HBoxContainer4/VBoxContainer2/HBoxContainer2/VBoxContainer"]
+layout_mode = 2
+text = "Simple"
+
+[node name="2-simple" type="CheckButton" parent="VBoxContainer/HBoxContainer2/VBoxContainer/HBoxContainer4/VBoxContainer2/HBoxContainer2/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+button_group = ExtResource("2_t2sxu")
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="VBoxContainer/HBoxContainer2/VBoxContainer/HBoxContainer4/VBoxContainer2/HBoxContainer2"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer2/VBoxContainer/HBoxContainer4/VBoxContainer2/HBoxContainer2/VBoxContainer2"]
+layout_mode = 2
+text = "Classic"
+
+[node name="2-classic" type="CheckButton" parent="VBoxContainer/HBoxContainer2/VBoxContainer/HBoxContainer4/VBoxContainer2/HBoxContainer2/VBoxContainer2"]
+unique_name_in_owner = true
+layout_mode = 2
+button_group = ExtResource("2_t2sxu")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/HBoxContainer2/VBoxContainer/HBoxContainer4"]
+layout_mode = 2
+
+[node name="Label2" type="Label" parent="VBoxContainer/HBoxContainer2/VBoxContainer/HBoxContainer4/VBoxContainer"]
+layout_mode = 2
+text = "4 Player"
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="VBoxContainer/HBoxContainer2/VBoxContainer/HBoxContainer4/VBoxContainer"]
+layout_mode = 2
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="VBoxContainer/HBoxContainer2/VBoxContainer/HBoxContainer4/VBoxContainer/HBoxContainer3"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer2/VBoxContainer/HBoxContainer4/VBoxContainer/HBoxContainer3/VBoxContainer2"]
+layout_mode = 2
+text = "Classic"
+
+[node name="4-classic" type="CheckButton" parent="VBoxContainer/HBoxContainer2/VBoxContainer/HBoxContainer4/VBoxContainer/HBoxContainer3/VBoxContainer2"]
+unique_name_in_owner = true
+layout_mode = 2
+button_group = ExtResource("2_t2sxu")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/HBoxContainer2/VBoxContainer" groups=["phase_1"]]
+layout_mode = 2
+
+[node name="Host" type="Button" parent="VBoxContainer/HBoxContainer2/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "Host"
+
+[node name="Join" type="Button" parent="VBoxContainer/HBoxContainer2/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "Join"
+
+[node name="Start" type="Button" parent="VBoxContainer/HBoxContainer2/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Start"
+
+[node name="PlayerList" type="VBoxContainer" parent="VBoxContainer/HBoxContainer2"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="PlayerListLabel" type="Label" parent="VBoxContainer/HBoxContainer2/PlayerList"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[connection signal="pressed" from="VBoxContainer/HBoxContainer2/VBoxContainer/HBoxContainer/Host" to="." method="_on_host_pressed"]
+[connection signal="pressed" from="VBoxContainer/HBoxContainer2/VBoxContainer/HBoxContainer/Join" to="." method="_on_join_pressed"]
+[connection signal="pressed" from="VBoxContainer/HBoxContainer2/VBoxContainer/Start" to="." method="_on_start_pressed"]

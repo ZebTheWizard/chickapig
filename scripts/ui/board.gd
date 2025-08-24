@@ -2,6 +2,13 @@ extends CanvasLayer
 
 @onready var moves_left = $"VBoxContainer/Moves Left"
 
+func _ready() -> void:
+	GameController.game.ready.connect(_on_game_ready)
+	hide()
+	
+func _on_game_ready():
+	show()
+
 func _on_next_turn_pressed() -> void:
 	GameController.next_turn.emit()
 

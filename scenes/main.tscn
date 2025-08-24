@@ -6,7 +6,7 @@
 [ext_resource type="Script" uid="uid://dihtinns4aeov" path="res://scripts/pieces.gd" id="3_sugp2"]
 [ext_resource type="Script" uid="uid://uhmr2gjhgryq" path="res://scripts/ui/board.gd" id="5_tbgi4"]
 [ext_resource type="Script" uid="uid://crk18l830ghrx" path="res://scripts/dots.gd" id="5_tefeu"]
-[ext_resource type="Script" uid="uid://b6btlk4gxvs5s" path="res://scripts/ui/network_menu.gd" id="7_o6xl0"]
+[ext_resource type="PackedScene" uid="uid://bosvf17a7r4di" path="res://scenes/network_screen.tscn" id="7_o6xl0"]
 
 [node name="Node3D" type="Node2D"]
 
@@ -47,42 +47,7 @@ text = "Orient Board"
 layout_mode = 2
 text = "Moves left: 0"
 
-[node name="Network UI" type="CanvasLayer" parent="."]
-script = ExtResource("7_o6xl0")
-
-[node name="VBoxContainer" type="VBoxContainer" parent="Network UI"]
-offset_right = 40.0
-offset_bottom = 40.0
-theme_override_constants/separation = 20
-
-[node name="VBoxContainer2" type="VBoxContainer" parent="Network UI/VBoxContainer"]
-layout_mode = 2
-
-[node name="Label" type="Label" parent="Network UI/VBoxContainer/VBoxContainer2"]
-layout_mode = 2
-text = "Username"
-
-[node name="Username" type="LineEdit" parent="Network UI/VBoxContainer/VBoxContainer2"]
-unique_name_in_owner = true
-layout_mode = 2
-
-[node name="HBoxContainer" type="HBoxContainer" parent="Network UI/VBoxContainer"]
-layout_mode = 2
-
-[node name="Host" type="Button" parent="Network UI/VBoxContainer/HBoxContainer"]
-layout_mode = 2
-text = "Host"
-
-[node name="Join" type="Button" parent="Network UI/VBoxContainer/HBoxContainer"]
-layout_mode = 2
-text = "Join"
-
-[node name="Start" type="Button" parent="Network UI/VBoxContainer/HBoxContainer"]
-layout_mode = 2
-text = "Start"
+[node name="Network UI" parent="." instance=ExtResource("7_o6xl0")]
 
 [connection signal="pressed" from="Board UI/VBoxContainer/Next Turn" to="Board UI" method="_on_next_turn_pressed"]
 [connection signal="pressed" from="Board UI/VBoxContainer/Orient Board" to="Board UI" method="_on_orient_board_pressed"]
-[connection signal="pressed" from="Network UI/VBoxContainer/HBoxContainer/Host" to="Network UI" method="_on_host_pressed"]
-[connection signal="pressed" from="Network UI/VBoxContainer/HBoxContainer/Join" to="Network UI" method="_on_join_pressed"]
-[connection signal="pressed" from="Network UI/VBoxContainer/HBoxContainer/Start" to="Network UI" method="_on_start_pressed"]
